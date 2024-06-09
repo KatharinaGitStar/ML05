@@ -3,16 +3,17 @@ package MusicLandscape.util.matcher;
 import MusicLandscape.entities.Track;
 import MusicLandscape.util.MyMatcher;
 
-public class TitleMatcher extends myMatcher<Track>{
+public class TitleMatcher extends MyMatcher<Track>{
     private String pattern;
 
     public TitleMatcher(String pat) {
+        super(pat);
         setPattern(pat);
     }
 
     @Override
     public boolean matches(Track t) {
-        return t.getTitle().matches(pattern);
+        return t.getTitle().startsWith(pattern);
     }
 
     @Override
