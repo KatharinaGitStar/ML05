@@ -1,21 +1,27 @@
 package MusicLandscape.util.matcher;
 
-public class DurationMatcher  extends myMatcher <Track>{
+import MusicLandscape.entities.Track;
+import MusicLandscape.util.MyMatcher;
+
+
+public class DurationMatcher  extends MyMatcher <Track> {
     private int lower;
     private int upper;
 
     public DurationMatcher() {
-        this.lower = Integer.MIN_VALUE;
+        super("");
+        this.lower = 0;
         this.upper = Integer.MAX_VALUE;
     }
 
-    public DurationMatcher(String pat){
+    public DurationMatcher(String pat) {
+        super(pat);
         setPattern(pat);
     }
 
     @Override
     public boolean matches(Track t) {
-        if(t == null) {
+        if (t == null) {
             return false;
         }
         int duration = t.getDuration();
@@ -23,36 +29,39 @@ public class DurationMatcher  extends myMatcher <Track>{
     }
 
     @Override
-    public String getPatter(){
+    public String getPattern() {
         return lower + " " + upper;
     }
 
     @Override
     public void setPattern(String pat) {
-        if (pat == null || pat.trim().isEmpty()) {
-            // If pattern is empty or null, match any duration
-            this.lower = Integer.MIN_VALUE;
-            this.upper = Integer.MAX_VALUE;
-            return;
-        }
-        String[] bounds = pat.trim().split("\\s+");
-        try {
-            int newLower = Integer.parseInt(bounds[0]);
-            int newUpper = bounds.length > 1 ? Integer.parseInt(bounds[1]) : newLower;
-            // Set bounds only if new bounds are valid (lower <= upper)
-            if (newLower <= newUpper) {
-                this.lower = newLower;
-                this.upper = newUpper;
+        if (pat != null) {
+            try {
+                //trim for whitespaces
+                pat = pat.trim();
+                //split pattern into parts based on whitespace
+                String[] parts = pat.split("\\s+");
+
+                //check the number of parts in the pattern
+                if (parts.length == 1) { //if there is only 1 part, the lower boundary is set
+                    lower = Integer.parseInt(parts[0]);
+                    upper = Integer.MAX_VALUE;
+                } else if (parts.length == 2) { //if there are 2 parts, the lower and upper boundary are set
+                    lower = Integer.parseInt(parts[0]);
+                    upper = Integer.parseInt(parts[1]);
+                }
+
+                //check if the lower boundary is greater than the upper, if so set the lower to the first part and the upper to max.
+                if (lower > upper) {
+                    lower = Integer.parseInt(parts[0]);
+                    upper = Integer.MAX_VALUE;
+                }
+            } catch (NumberFormatException e) {
             }
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-            // If parsing fails or bounds are invalid, match any duration
-            this.lower = Integer.MIN_VALUE;
-            this.upper = Integer.MAX_VALUE;
         }
     }
-
     @Override
-    public String toString() {
+    public String toString () {
         return "duration in range (" + getPattern() + ")";
     }
 }
