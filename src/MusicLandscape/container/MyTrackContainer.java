@@ -17,6 +17,7 @@ public class MyTrackContainer extends Object{
         for(Track track : t){
             add(track);
         }
+        reset();
     }
 
     public MyTrackContainer(Track[] t) {
@@ -59,8 +60,8 @@ public class MyTrackContainer extends Object{
     }
 
     //gets the selected tracks and return as an array of tracks
-    //if the selection is empty an
-    public Track[] selection(){
+    //if the selection is empty an array of size 0 is returned
+    public Track[] selection() {
         return selection.toArray(new Track[0]);
     }
 
@@ -77,11 +78,13 @@ public class MyTrackContainer extends Object{
 
     //all selected tracks are removed
     public int remove(){
-        int removed = selection.size();
+        int removed = selection.size();;
         tracks.removeAll(selection);
-        selection.clear();
+        reset();
         return removed;
     }
+
+
 
     //method to reset the selection
     public void reset(){
