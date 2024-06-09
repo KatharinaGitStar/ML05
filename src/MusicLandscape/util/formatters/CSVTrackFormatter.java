@@ -1,7 +1,6 @@
-package MusicLandscape.util.formatters;
+package MusicLandscape.util;
 
 import MusicLandscape.entities.Track;
-import MusicLandscape.util.MyFormatter;
 
 public class CSVTrackFormatter extends Object implements MyFormatter <Track> {
 

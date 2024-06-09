@@ -14,6 +14,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import MusicLandscape.entities.*;
+import MusicLandscape.util.matcher.DurationMatcher;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;

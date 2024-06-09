@@ -1,17 +1,18 @@
-package MusicLandscape.util.formatters;
+package MusicLandscape.util;
 import MusicLandscape.entities.Track;
 
-public class ShortTrackFormatter extends Object implements MyFormatter<Track>{
+public class ShortTrackFormatter extends Object implements MyFormatter<Track> {
 
     public ShortTrackFormatter() {}
 
     @Override
     public String header(){
-        return "Title    (min:sec)";
+        return "Title      (min:sec)";
     }
     @Override
     public String format(Track t) {
-        String title = String.format("%-10s", t.getTitle()); // Ensure title is exactly ten characters wide
+        String title = t.getTitle().substring(0, Math.min(t.getTitle().length(), 10)); // Ensure title is exactly ten characters wide
+        title = String.format("%-10s", title);
         String duration = formatDuration(t.getDuration()); // Format duration as "min:sec"
         return title + " (" + duration + ")";
     }
@@ -24,6 +25,13 @@ public class ShortTrackFormatter extends Object implements MyFormatter<Track>{
     //top separator consists of dashes (-) only. It is exactly as wide as the header.
     @Override
     public String topSeparator(){
-        return "---------- (------)";
+        return "--------------------";
+    }
+
+    // Method to format duration as "min:sec"
+    private String formatDuration(int duration) {
+        int minutes = duration / 60;
+        int seconds = duration % 60;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 }
