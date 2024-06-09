@@ -1,6 +1,6 @@
 package MusicLandscape.entities;
 
-public class Artist {
+public class Artist extends Object implements Comparable<Artist>{
     private String name;
 
     // Constructor with a default name unknown
